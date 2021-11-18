@@ -1,0 +1,188 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title>所有学生</title>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="https://kauizhaotan.oss-cn-shanghai.aliyuncs.com/VotingSystem/css/materialize.min.css"type="text/css">
+		<link rel="stylesheet" href="/css/me.css" type="text/css">
+		<script type="text/javascript" src="https://kauizhaotan.oss-cn-shanghai.aliyuncs.com/VotingSystem/js/jquery.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="https://kauizhaotan.oss-cn-shanghai.aliyuncs.com/VotingSystem/js/materialize.min.js" charset="UTF-8"></script>
+	</head>
+	<body>
+		<div th:replace="common :: navbar(1)"></div>
+
+
+		<main class="container">
+			<div class="section">
+				<blockquote  style="border-color: #1565c0">所有学生信息</blockquote>
+				<table class="striped centered" data-toggle="table">
+					<thead>
+						<tr>
+							<th>学号</th>
+							<th>姓名</th>
+							<th>专业</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="student, Stat : ${students} ">
+							<td th:text="${student.studentId}">B1000</td>
+							<td th:text="${student.name}">谭</td>
+							<td th:text="${student.professional}">软</td>
+							<td>
+								<a class="btn waves-effect waves-light blue darken-3 modal-trigger"  th:onclick="showUserById([[${student.studentId}]]);">查看</a>
+								<a class="btn red darken-3" th:onclick="deleteUserById([[${student.studentId}]]);">删除</a>
+								<a class="btn green darken-3">修改</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="center">
+				<button class="btn-floating btn-large waves-effect waves-light red modal-trigger" data-target="addUser"><i class="material-icons">add</i></button>
+			</div>
+		</main>
+		<!--Show User Modal Start-->
+		<div id="showUser" class="modal">
+			<div class="modal-content">
+				<h4>查看用户</h4>
+				<div class="section">
+					<form class="col s12">
+						<div class="row">
+							<div class="col s6 input-field">
+								<input placeholder="" id="userName_show" type="text" class="validate">
+								<label for="userName_show">姓名</label>
+							</div>
+							<div class="col s6 input-field">
+								<input placeholder="" id="studentId_show" type="text" class="validate">
+								<label for="studentId_show">学号</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12 input-field">
+								<input placeholder="" id="profession_show" type="text" class="validate">
+								<label for="profession_show">专业</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12 input-field">
+								<input placeholder="" id="tel_show" type="text" class="validate">
+								<label for="tel_show">电话</label>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Submit</a>
+			</div>
+		</div>
+
+
+		<!--添加用户MODAL开始-->
+		<div id="addUser" class="modal">
+			<div class="modal-content">
+				<h4>添加用户</h4>
+				<div class="section">
+					<form class="col s12">
+						<div class="row">
+							<div class="col s6 input-field">
+								<input id="userName" type="text" class="validate">
+								<label for="userName">姓名</label>
+							</div>
+							<div class="col s6 input-field">
+								<input id="studentId" type="text" class="validate">
+								<label for="studentId">学号</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12 input-field">
+								<input id="profession" type="text" class="validate">
+								<label for="profession">专业</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12 input-field">
+								<input id="tel" type="text" class="validate">
+								<label for="tel">电话</label>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat" id="user-save">Submit</a>
+			</div>
+		</div>
+
+
+		<script th:inline="javascript">
+			$(document).ready(function (){
+                $(".modal").modal();
+			});
+			function deleteUserById(studentId){
+                $.ajax({
+	                url : "/student/" + studentId,
+	                type: "DELETE",
+                }).done(function (){
+                    M.toast({
+	                    html: "删除成功！",
+	                    classes : "red rounded"
+                    })
+	                window.location.replace("/student");
+				})
+            }
+
+            /*Show User Button Event*/
+            function showUserById(studentId){
+                var instance = M.Modal.getInstance($("#showUser"));
+                instance.open();
+                $.ajax({
+	                url: "/student/" + studentId,
+	                type: "GET"
+                }).done(function (res) {
+                    if(res.httpStatus === "OK"){
+                        $("#studentId_show").val(res.data.studentId);
+                        $("#userName_show").val(res.data.name);
+                        $("#profession_show").val(res.data.professional);
+                        $("#tel_show").val(res.data.tel);
+                    }
+                })
+            }
+
+            /*添加用户按钮事件*/
+			$("#user-save").click(function (){
+                let dataform = {
+                    "studentId": $("#studentId").val(),
+                    "name": $("#userName").val(),
+                    "professional": $("#profession").val(),
+                    "tel": $("#tel").val()
+                };
+
+                dataform = JSON.stringify(dataform);
+                $.ajax({
+                    url: "/student",
+	                type: "POST",
+                    contentType: "application/json",
+                    data: dataform,
+                    dataType: "json"
+                }).done(function (res) {
+	                if(res.httpStatus === "CREATED"){
+                        M.toast({
+	                        html : "添加成功！",
+	                        classes: "rounded green",
+                            displayLength : 500,
+                            inDuration: 100,
+                            outDuration: 0,
+                            completeCallback: function(){location.reload()}
+                        })
+	                }
+                })
+
+			});
+
+
+		</script>
+	</body>
+</html>

@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Common Files</title>
+	</head>
+	<body>
+		<div >
+			<nav class="blue darken-3"  role="navigation" th:fragment="default-navbar(n)">
+				<div class="nav-wrapper container">
+					<a   class="brand-logo center">
+						<i class="material-icons large">blur_on</i>Mannager System
+					</a>
+				</div>
+			</nav>
+			<nav class="blue darken-3"  role="navigation" th:fragment="navbar(n)">
+				<div class="nav-wrapper container">
+					<a id="logo-container"  class="brand-logo">
+						<i class="material-icons large">blur_on</i>Mannager System
+					</a>
+					<ul class="right hide-on-med-and-down">
+						<li th:classappend="${n == 0} ? 'active'"><a th:href="@{/index}" class="active">首页</a></li>
+						<li th:classappend="${n == 1} ? 'active'"><a th:href="@{/student}">学生管理</a></li>
+						<li th:classappend="${n == 2} ? 'active'"><a th:href="@{/score}">成绩管理</a></li>
+						<li th:classappend="${n == 999} ? 'active'"><a th:href="@{/logout}">登出</a></li>
+					</ul>
+				</div>
+			</nav>
+
+			<footer th:fragment="footer">
+			</footer>
+	</body>
+
+</html>

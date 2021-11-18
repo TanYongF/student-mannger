@@ -1,0 +1,96 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<title>登录</title>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="https://kauizhaotan.oss-cn-shanghai.aliyuncs.com/VotingSystem/css/materialize.min.css"type="text/css">
+		<link rel="stylesheet" href="/css/me.css" type="text/css">
+		<script type="text/javascript" src="https://kauizhaotan.oss-cn-shanghai.aliyuncs.com/VotingSystem/js/jquery.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="https://kauizhaotan.oss-cn-shanghai.aliyuncs.com/VotingSystem/js/materialize.min.js" charset="UTF-8"></script>
+	</head>
+	<style>
+        /* label focus color */
+        .input-field input[type=text]:focus + label {
+            color: #1565c0 !important;
+        }
+        /* label underline focus color */
+        .input-field input[type=text]:focus {
+            border-bottom: 1px solid #1565c0 !important;
+            box-shadow: 0 1px 0 0 #000;
+        }
+        /* icon prefix focus color */
+        .input-field .prefix.active {
+            color: #1565c0 ;
+        }
+
+	</style>
+	<body class="bg">
+		<div th:replace="common :: default-navbar(2)"></div>
+		<!--主体开始-->
+		<div class="container login-container" style="flex: 1 0 auto; width: 90%">
+			<!--开始-->
+			<div class="row section  ">
+				<div class="col s12 l12">
+					<div class="card horizontal large" style="height: 600px; background-color: rgba(255,255,255,0.5)" >
+						<div class="card-image">
+							<img width="600" height="500" th:src="${imageProxy} + 'https://picsum.photos/seed/600/500?blur=5' " class="responsive-img wp-post-image" loading="lazy"  sizes="(max-width: 305px) 100vw, 305px">
+							<span class="card-title" id="channelTitleSpan" style=" background-color: rgba(0,0,0,0)" >
+								<span style="font-size: 64px;line-height: 240px;"> System
+								</span>
+
+							</span>
+						</div>
+						<div class="card-stacked">
+							<div class="card-content center">
+								<div class="section">
+									<div class="col s12 l12">
+										<div class="row section">
+											<h3 class="title left-align " style="font-weight: 900"><span class="red-text">·&nbsp;</span>登录</h3>
+										</div>
+										<form method="post" action="/login" th:id="login-form" class="horizontal section">
+											<div class="row">
+												<div class="input-field col s12" >
+													<i class="material-icons prefix">account_circle</i>
+													<input id="username" type="text"  class="validate" name="username" value="">
+													<label for="username">账号</label>
+												</div>
+											</div>
+											<div class="row">
+												<div class="input-field col s12">
+													<i class="material-icons prefix">vpn_key</i>
+													<input id="password" type="password"  class="validate" name="password" value="">
+													<label for="password">密码</label>
+												</div>
+											</div>
+											<div class="section row">
+												<div class="center-align">
+													<input name="_csrf" type="hidden" value="93edbebc-aa90-4b8c-b372-28f922a9a9e6"/>
+													<button class="btn-large waves-effect waves-light pulse blue darken-3" type="submit" name="action">登录
+													</button>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--结束-->
+		</div>
+		<!--主体结束-->
+<!--		<div th:replace="common::footer"></div>-->
+		<script th:inline="javascript">
+            let message =[[${param?.error}]]
+            if(message != null){
+                M.toast({
+                    html: "用户名或密码错误，请重新输入！",
+                    classes: 'rounded red',
+                });
+            }
+		</script>
+
+	</body>
+</html>
