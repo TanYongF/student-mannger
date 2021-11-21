@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Title</title>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="https://kauizhaotan.oss-cn-shanghai.aliyuncs.com/VotingSystem/css/materialize.min.css"type="text/css">
+		<link rel="stylesheet" href="/css/me.css" type="text/css">
+		<script type="text/javascript" src="https://kauizhaotan.oss-cn-shanghai.aliyuncs.com/VotingSystem/js/jquery.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="https://kauizhaotan.oss-cn-shanghai.aliyuncs.com/VotingSystem/js/materialize.min.js" charset="UTF-8"></script>
+	</head>
+	<body>
+		<div th:replace="common :: navbar(1)"></div>
+		<main class="container">
+			<div class="section">
+				<nav class="blue darken-3">
+					<div class="nav-wrapper">
+						<div class="col s12">
+							<a  th:href="@{/student}" class="breadcrumb">&nbsp; &nbsp; 学生管理</a>
+							<a th:href="@{'/score/' + ${student.studentId}}" class="breadcrumb" th:text="${student.name}"></a>
+						</div>
+					</div>
+				</nav>
+			</div>
+
+			<blockquote  style="border-color: green">学生信息</blockquote>
+			<div>
+				<form class="col s12">
+					<div class="row">
+						<div class="col s6 input-field">
+							<input id="userName" type="text" class="validate" th:value="${student.name}" disabled>
+							<label for="userName">姓名</label>
+						</div>
+						<div class="col s6 input-field">
+							<input id="studentId" type="text" class="validate" th:value="${student.studentId}" disabled>
+							<label for="studentId">学号</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12 input-field">
+							<input id="profession" type="text" class="validate" th:value="${student.professional}" disabled>
+							<label for="profession">专业</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col s12 input-field">
+							<input id="tel" type="text" class="validate" th:value="${student.tel}" disabled>
+							<label for="tel">电话</label>
+						</div>
+					</div>
+				</form>
+			</div>
+			<blockquote>学生成绩</blockquote>
+			<table class="striped centered" data-toggle="table">
+				<thead>
+					<tr>
+						<th>学号</th>
+						<th>课程代码</th>
+						<th>课程成绩</th>
+						<th>分数</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="scoreItem, Stat : ${scores} ">
+						<td th:text="${scoreItem.studentId}">B1000</td>
+						<td th:text="${scoreItem.lessonId}">谭</td>
+						<td th:text="${scoreItem.lessonName}">软</td>
+						<td th:text="${scoreItem.score}">100</td>
+						<td>
+							<a class="btn waves-effect waves-light blue darken-3" th:onclick="edit([[scoreItem.id]])">修改</a>
+							<a class="btn red darken-3" th:onclick="deleteScoreByStudentId([[${scoreItem.id}]]);">删除</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="center">
+				<button class="btn-floating btn-large waves-effect waves-light red modal-trigger" data-target="addScore"><i class="material-icons">add</i></button>
+			</div>
+
+		</main>
+
+		<!--修改用户MODAL开始-->
+		<div id="editScore" class="modal">
+			<div class="modal-content">
+				<h4>修改成绩</h4>
+				<div class="section">
+					<form class="col s12">
+						<div class="row">
+							<div class="col s6 input-field">
+								<input id="lessonId-edit" type="text" class="validate">
+								<label for="lessonId-edit">课程代号</label>
+							</div>
+							<div class="col s6 input-field">
+								<input id="lessonName-edit" type="text" class="validate">
+								<label for="lessonName-edit">课程名称</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12 input-field">
+								<input id="score-edit" type="text" class="validate">
+								<label for="score-edit">成绩</label>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat" id="score-update">保存</a>
+			</div>
+		</div>
+		<!--添加用户MODAL开始-->
+		<div id="addScore" class="modal">
+			<div class="modal-content">
+				<h4>添加成绩</h4>
+				<div class="section">
+					<form class="col s12">
+						<div class="row">
+							<div class="col s6 input-field">
+								<input id="studentId-add" type="text" class="validate" th:value="${student.name}" disabled>
+								<label for="studentId-add">学号</label>
+							</div>
+							<div class="col s6 input-field">
+								<input id="studentName-add" type="text" class="validate" th:value="${student.studentId}" disabled>
+								<label for="studentName-add">学号</label>
+							</div>
+							<div class="col s6 input-field">
+								<input id="lessonId-add" type="text" class="validate">
+								<label for="lessonId-add">课程代号</label>
+							</div>
+							<div class="col s6 input-field">
+								<input id="lessonName-add" type="text" class="validate">
+								<label for="lessonName-add">课程名称</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12 input-field">
+								<input id="score-add" type="text" class="validate">
+								<label for="score-add">成绩</label>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat" id="score-save">保存</a>
+			</div>
+		</div>
+	</body>
+	<script th:inline="javascript">
+        $(document).ready(function (){
+            $(".modal").modal();
+        });
+        function deleteScoreByStudentId(scoreId){
+            $.ajax({
+                url : "/score/" + scoreId,
+                type: "DELETE",
+            }).done(function () {
+                alert("删除成功!")
+                location.reload();
+            })
+        }
+        function edit(scoreId){
+            elem = document.getElementById("editScore");
+            console.log("弹出！")
+            var instance = M.Modal.getInstance(elem);
+            instance.open();
+        }
+
+        $("#score-save").click(function () {
+	        let dataForm = {
+                "studentId": [[${student.studentId}]],
+                "lessonId": $("#lessonId-add").val(),
+                "lessonName": $("#lessonName-add").val(),
+                "score": $("#score-add").val()
+	        }
+            dataForm = JSON.stringify(dataForm);
+	        $.ajax({
+		        url : "/score",
+		        type: "POST",
+                contentType: "application/json",
+                data: dataForm,
+                dataType: "json"
+	        }).done(function (res) {
+		        location.reload();
+            })
+        })
+
+        $("#score-save").click(function () {
+            let dataForm = {
+                "studentId": [[${student.studentId}]],
+                "lessonId": $("#lessonId-edit").val(),
+                "lessonName": $("#lessonName-edit").val(),
+                "score": $("#score-edit").val()
+            }
+            dataForm = JSON.stringify(dataForm);
+            $.ajax({
+                url : "/score",
+                type: "UPDATE",
+                contentType: "application/json",
+                data: dataForm,
+                dataType: "json"
+            }).done(function (res) {
+                location.reload();
+            })
+        })
+	</script>
+</html>

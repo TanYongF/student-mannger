@@ -36,5 +36,4 @@ public class Teacher{
 
     private LocalDateTime updateAt;
 
-
 }

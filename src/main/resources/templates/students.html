@@ -11,8 +11,6 @@
 	</head>
 	<body>
 		<div th:replace="common :: navbar(1)"></div>
-
-
 		<main class="container">
 			<div class="section">
 				<blockquote  style="border-color: #1565c0">所有学生信息</blockquote>
@@ -33,7 +31,8 @@
 							<td>
 								<a class="btn waves-effect waves-light blue darken-3 modal-trigger"  th:onclick="showUserById([[${student.studentId}]]);">查看</a>
 								<a class="btn red darken-3" th:onclick="deleteUserById([[${student.studentId}]]);">删除</a>
-								<a class="btn green darken-3">修改</a>
+<!--								<a class="btn green darken-3">修改</a>-->
+								<a class="btn green darken-3" th:href="@{'/score/' + ${student.studentId}}">详情</a>
 							</td>
 						</tr>
 					</tbody>
@@ -75,7 +74,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Submit</a>
+
+				<a href="#!" class="modal-close waves-effect waves-green  btn-flat">保存</a>
 			</div>
 		</div>
 

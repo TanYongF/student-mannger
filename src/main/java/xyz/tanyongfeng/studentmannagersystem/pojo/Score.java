@@ -20,7 +20,9 @@ public class Score {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String lessionId;
+    private String studentId;
+
+    private String lessonId;
 
     private String lessonName;
 

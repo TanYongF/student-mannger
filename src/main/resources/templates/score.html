@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Title</title>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link rel="stylesheet" href="https://kauizhaotan.oss-cn-shanghai.aliyuncs.com/VotingSystem/css/materialize.min.css"type="text/css">
+		<link rel="stylesheet" href="/css/me.css" type="text/css">
+		<script type="text/javascript" src="https://kauizhaotan.oss-cn-shanghai.aliyuncs.com/VotingSystem/js/jquery.js" charset="UTF-8"></script>
+		<script type="text/javascript" src="https://kauizhaotan.oss-cn-shanghai.aliyuncs.com/VotingSystem/js/materialize.min.js" charset="UTF-8"></script>
+	</head>
+	<body>
+		<div th:replace="common :: navbar(2)"></div>
+		<main class="container">
+			<div class="section">
+				<blockquote>学生成绩</blockquote>
+				<table class="striped centered" data-toggle="table">
+					<thead>
+						<tr>
+							<th>学号</th>
+							<th>课程代码</th>
+							<th>课程成绩</th>
+							<th>分数</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="scoreItem, Stat : ${scores} ">
+							<td th:text="${scoreItem.studentId}">B1000</td>
+							<td th:text="${scoreItem.lessonId}">谭</td>
+							<td th:text="${scoreItem.lessonName}">软</td>
+							<td th:text="${scoreItem.score}">100</td>
+							<td>
+								<a class="btn waves-effect waves-light blue darken-3 modal-trigger">修改</a>
+								<a class="btn red darken-3" th:onclick="deleteScoreByStudentId([[${scoreItem.id}]]);">删除</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</main>
+
+	</body>
+	<script>
+		function deleteScoreByStudentId(scoreId){
+            $.ajax({
+	            url : "/score/" + scoreId,
+	            type: "DELETE",
+            }).done(function () {
+	            alert("删除成功!")
+	            location.reload();
+            })
+		}
+	</script>
+</html>

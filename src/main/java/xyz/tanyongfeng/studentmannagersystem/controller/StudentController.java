@@ -50,7 +50,9 @@ public class StudentController {
 
     @ResponseBody
     @PutMapping("/{studentId}")
-    public String updateStudent(@PathVariable String studentId){
+    public String updateStudent(Model model,
+                                @PathVariable String studentId){
+
         return null;
     }
 

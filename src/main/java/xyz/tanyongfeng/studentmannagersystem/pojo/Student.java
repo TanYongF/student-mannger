@@ -32,5 +32,4 @@ public class Student {
 
     private String tel;
 
-    private List<Score> scores;
 }
