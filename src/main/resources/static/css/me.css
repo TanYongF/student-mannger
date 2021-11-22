@@ -13,6 +13,9 @@ body {
 ::-webkit-scrollbar {
     display: none; /* Chrome Safari */
 }
+.logo{
+    font-family: "华文仿宋";
+}
 .bg{
     background: url("/img/index-2.jpg") no-repeat center;
     background-size: cover;

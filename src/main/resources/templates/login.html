@@ -36,7 +36,8 @@
 						<div class="card-image">
 							<img width="600" height="500" th:src="${imageProxy} + 'https://picsum.photos/seed/600/500?blur=5' " class="responsive-img wp-post-image" loading="lazy"  sizes="(max-width: 305px) 100vw, 305px">
 							<span class="card-title" id="channelTitleSpan" style=" background-color: rgba(0,0,0,0)" >
-								<span style="font-size: 64px;line-height: 240px;"> System
+								<span style="font-size: 54px;line-height: 240px;">简约学生管理系统
+									<br>Simple Student
 								</span>
 
 							</span>
@@ -80,6 +81,8 @@
 			</div>
 			<!--结束-->
 		</div>
+
+		<div th:replace="common::footer"></div>
 		<!--主体结束-->
 <!--		<div th:replace="common::footer"></div>-->
 		<script th:inline="javascript">

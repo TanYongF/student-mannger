@@ -74,8 +74,6 @@ public class ScoreController {
     @PutMapping("")
     public String updateScore(@RequestBody Score score){
         return null;
-
-
     }
 
 

@@ -11,37 +11,41 @@
 	</head>
 	<body>
 		<div th:replace="common :: navbar(1)"></div>
-		<main class="container">
-			<div class="section">
-				<blockquote  style="border-color: #1565c0">所有学生信息</blockquote>
-				<table class="striped centered" data-toggle="table">
-					<thead>
-						<tr>
-							<th>学号</th>
-							<th>姓名</th>
-							<th>专业</th>
-							<th>操作</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="student, Stat : ${students} ">
-							<td th:text="${student.studentId}">B1000</td>
-							<td th:text="${student.name}">谭</td>
-							<td th:text="${student.professional}">软</td>
-							<td>
-								<a class="btn waves-effect waves-light blue darken-3 modal-trigger"  th:onclick="showUserById([[${student.studentId}]]);">查看</a>
-								<a class="btn red darken-3" th:onclick="deleteUserById([[${student.studentId}]]);">删除</a>
-<!--								<a class="btn green darken-3">修改</a>-->
-								<a class="btn green darken-3" th:href="@{'/score/' + ${student.studentId}}">详情</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="center">
-				<button class="btn-floating btn-large waves-effect waves-light red modal-trigger" data-target="addUser"><i class="material-icons">add</i></button>
+		<main>
+			<div class="container">
+				<div class="section">
+					<blockquote  style="border-color: #1565c0">所有学生信息</blockquote>
+					<table class="striped centered" data-toggle="table">
+						<thead>
+							<tr>
+								<th>学号</th>
+								<th>姓名</th>
+								<th>专业</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="student, Stat : ${students} ">
+								<td th:text="${student.studentId}">B1000</td>
+								<td th:text="${student.name}">谭</td>
+								<td th:text="${student.professional}">软</td>
+								<td>
+									<a class="btn waves-effect waves-light blue darken-3 modal-trigger"  th:onclick="showUserById([[${student.studentId}]]);">修改</a>
+									<a class="btn red darken-3" th:onclick="deleteUserById([[${student.studentId}]]);">删除</a>
+									<a class="btn green darken-3" th:href="@{'/score/' + ${student.studentId}}">详情</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="center" style="margin-bottom : 30px">
+					<button class="btn-floating btn-large waves-effect waves-light red modal-trigger tooltipped" data-target="addUser" data-position="bottom" data-tooltip="添加用户"><i class="material-icons">add</i></button>
+				</div>
 			</div>
 		</main>
+
+		<div th:replace="common::footer"></div>
+
 		<!--Show User Modal Start-->
 		<div id="showUser" class="modal">
 			<div class="modal-content">
@@ -78,7 +82,6 @@
 				<a href="#!" class="modal-close waves-effect waves-green  btn-flat">保存</a>
 			</div>
 		</div>
-
 
 		<!--添加用户MODAL开始-->
 		<div id="addUser" class="modal">
@@ -120,6 +123,7 @@
 		<script th:inline="javascript">
 			$(document).ready(function (){
                 $(".modal").modal();
+                $('.tooltipped').tooltip();
 			});
 			function deleteUserById(studentId){
                 $.ajax({
@@ -181,8 +185,6 @@
                 })
 
 			});
-
-
 		</script>
 	</body>
 </html>
